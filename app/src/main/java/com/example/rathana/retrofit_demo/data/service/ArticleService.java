@@ -12,16 +12,16 @@ import retrofit2.http.Query;
 public interface ArticleService {
 
 
-    @POST("/v1/api/articles")
+    /*@POST("/v1/api/articles")
     Call<com.example.rathana.retrofit_demo.model.response.Article>
     addArticle(
        @Body Article article
-    );
+    );*/
 
     @GET("/v1/api/articles")
     Call<ArticleResponse> getArticles(
-                                      @Query("page") int page,
-                                      @Query("limit") int limit);
-
+         @Query("page") int page,
+         @Query("limit") int limit
+    );
 
 }

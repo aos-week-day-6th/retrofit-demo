@@ -9,6 +9,8 @@ import com.example.rathana.retrofit_demo.data.service.ArticleService;
 import com.example.rathana.retrofit_demo.model.form.Article;
 import com.example.rathana.retrofit_demo.model.response.ArticleResponse;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,18 +21,20 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         service = ServiceGenerator.createServices(ArticleService.class);
 
         Call<ArticleResponse> call = service.getArticles(1,20);
-        
+        /*Response<ArticleResponse> responseResponse= call.execute();*/
         call.enqueue(new Callback<ArticleResponse>() {
             @Override
             public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
-               
-                Log.e(TAG, "onResponse: "+response.body().toString() );
+                List<ArticleResponse.DataEntity> dataEntities=
+                        response.body().getData();
+                Log.e(TAG, "onResponse: "+dataEntities.toString());
             }
 
             @Override
