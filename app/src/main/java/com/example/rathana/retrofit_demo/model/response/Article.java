@@ -2,7 +2,7 @@ package com.example.rathana.retrofit_demo.model.response;
 
 import com.google.gson.annotations.SerializedName;
 
-public abstract class Article {
+public class Article {
 
 
     @SerializedName("DATA")
@@ -21,7 +21,7 @@ public abstract class Article {
                 '}';
     }
 
-    public static class DataEntity {
+    public class DataEntity {
         @SerializedName("IMAGE")
         private String image;
         @SerializedName("CATEGORY")
@@ -54,7 +54,7 @@ public abstract class Article {
         }
     }
 
-    public static class CategoryEntity {
+    public class CategoryEntity {
         @SerializedName("NAME")
         private String name;
         @SerializedName("ID")
@@ -69,7 +69,7 @@ public abstract class Article {
         }
     }
 
-    public static class AuthorEntity {
+    public class AuthorEntity {
         @SerializedName("IMAGE_URL")
         private String imageUrl;
         @SerializedName("FACEBOOK_ID")
