@@ -49,6 +49,7 @@ public class AmsAdapter extends RecyclerView.Adapter<AmsAdapter.ViewHolder> {
         ArticleResponse.DataEntity article=articles.get(i);
         viewHolder.title.setText(article.getTitle());
         viewHolder.date.setText(article.getCreatedDate());
+        //viewHolder.date.setText(DateFormatHelper.formatDate(article.getCreatedDate()));
         viewHolder.author.setText(article.getAuthor().getName());
 
         //image
@@ -73,6 +74,11 @@ public class AmsAdapter extends RecyclerView.Adapter<AmsAdapter.ViewHolder> {
         notifyItemRemoved(position);
     }
 
+    public void setArticle(ArticleResponse.DataEntity article) {
+        this.articles.add(article);
+        notifyItemInserted(0);
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder{
 
         private ImageView thumb,btnMenu;
@@ -85,6 +91,13 @@ public class AmsAdapter extends RecyclerView.Adapter<AmsAdapter.ViewHolder> {
             author=itemView.findViewById(R.id.author);
             btnMenu=itemView.findViewById(R.id.btnMenu);
 
+            //set event to each item
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callback.OnItemClicked(articles.get(getAdapterPosition()));
+                }
+            });
 
         }
 
@@ -120,6 +133,7 @@ public class AmsAdapter extends RecyclerView.Adapter<AmsAdapter.ViewHolder> {
     public interface  OnItemClickedCallback{
         void onItemSend(ArticleResponse.DataEntity article,int position);
         void onRemoveArticle(ArticleResponse.DataEntity article,int position);
+        void OnItemClicked(ArticleResponse.DataEntity article);
     }
 
 }

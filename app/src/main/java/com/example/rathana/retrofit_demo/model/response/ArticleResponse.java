@@ -1,5 +1,8 @@
 package com.example.rathana.retrofit_demo.model.response;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -110,7 +113,7 @@ public class ArticleResponse {
         }
     }
 
-    public class DataEntity {
+    public static class DataEntity  implements Parcelable {
         @SerializedName("IMAGE")
         private String image;
         @SerializedName("CATEGORY")
@@ -127,6 +130,45 @@ public class ArticleResponse {
         private String title;
         @SerializedName("ID")
         private int id;
+
+        public DataEntity() {
+        }
+
+        protected DataEntity(Parcel in) {
+            image = in.readString();
+            status = in.readString();
+            createdDate = in.readString();
+            description = in.readString();
+            title = in.readString();
+            id = in.readInt();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(image);
+            dest.writeString(status);
+            dest.writeString(createdDate);
+            dest.writeString(description);
+            dest.writeString(title);
+            dest.writeInt(id);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<DataEntity> CREATOR = new Creator<DataEntity>() {
+            @Override
+            public DataEntity createFromParcel(Parcel in) {
+                return new DataEntity(in);
+            }
+
+            @Override
+            public DataEntity[] newArray(int size) {
+                return new DataEntity[size];
+            }
+        };
 
         public String getImage() {
             return image;

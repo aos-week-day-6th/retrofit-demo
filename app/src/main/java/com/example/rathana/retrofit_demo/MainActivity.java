@@ -1,10 +1,14 @@
 package com.example.rathana.retrofit_demo;
 
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.rathana.retrofit_demo.adapter.AmsAdapter;
@@ -96,4 +100,63 @@ implements AmsAdapter.OnItemClickedCallback {
                 });
     }
 
+    @Override
+    public void OnItemClicked(ArticleResponse.DataEntity article) {
+        Intent intent=new Intent(this,ReadArticleActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putParcelable("data",article);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.option_menu,menu);
+        return true;
+    }
+
+    static  final  int NEW_POST_CODE=100;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.newPost:
+                    startActivityForResult(
+                            new Intent(this,NewPostActivity.class),NEW_POST_CODE);
+                return true;
+
+            default: return  false;
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==NEW_POST_CODE && resultCode==RESULT_OK){
+            //add data to adapter
+            Article article= data.getParcelableExtra("data");
+            ArticleResponse.DataEntity amsArticle=new ArticleResponse.DataEntity();
+            ArticleResponse.AuthorEntity author=new ArticleResponse().new AuthorEntity();
+            author.setId(article.getAuthor());
+            amsArticle.setAuthor(author);
+            amsArticle.setDescription(article.getDescription());
+            amsArticle.setTitle(article.getTitle());
+
+            adapter.setArticle(amsArticle);
+            //upload post to server
+
+
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
