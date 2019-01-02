@@ -30,14 +30,29 @@
         android:hint="description"
         android:layout_marginTop="16dp"
         android:id="@+id/desc"/>
-
-    <ImageView
-        android:layout_marginTop="16dp"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:id="@+id/image"
-        android:scaleType="centerCrop"
-        android:src="@drawable/images"/>
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:id="@+id/image"
+            android:scaleType="centerCrop"/>
+        <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:id="@+id/btnPickImage"
+            android:src="@drawable/photo_camera"
+            android:layout_gravity="center"/>
+        <ProgressBar
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
 
     <Button
         android:layout_width="match_parent"

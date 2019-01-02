@@ -145,8 +145,24 @@ implements AmsAdapter.OnItemClickedCallback {
             adapter.setArticle(amsArticle);
             //upload post to server
 
+            uploadNewPost(article);
 
         }
+    }
+
+    private void uploadNewPost(Article article){
+        service.addArticle(article).
+                enqueue(new Callback<com.example.rathana.retrofit_demo.model.response.Article>() {
+                    @Override
+                    public void onResponse(Call<com.example.rathana.retrofit_demo.model.response.Article> call, Response<com.example.rathana.retrofit_demo.model.response.Article> response) {
+                        Log.e(TAG, "onResponse: create new article success" );
+                    }
+
+                    @Override
+                    public void onFailure(Call<com.example.rathana.retrofit_demo.model.response.Article> call, Throwable t) {
+
+                    }
+                });
     }
 }
 

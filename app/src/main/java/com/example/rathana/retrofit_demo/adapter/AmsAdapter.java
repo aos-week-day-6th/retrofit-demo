@@ -75,7 +75,7 @@ public class AmsAdapter extends RecyclerView.Adapter<AmsAdapter.ViewHolder> {
     }
 
     public void setArticle(ArticleResponse.DataEntity article) {
-        this.articles.add(article);
+        this.articles.add(0,article);
         notifyItemInserted(0);
     }
 
