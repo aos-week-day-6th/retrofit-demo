@@ -11,6 +11,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -47,4 +48,9 @@ public interface ArticleService {
     Call<ImageResponse> uploadImage(
             @Part MultipartBody.Part file
     );
+
+    @PUT("/v1/api/articles/{id}")
+    Call<com.example.rathana.retrofit_demo.model.response.Article>
+    editArticle(@Path("id") int id,
+                @Body Article article);
 }

@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 public  class Article  implements Parcelable {
 
+    public int id;
     @SerializedName("IMAGE")
     public String image;
     @SerializedName("STATUS")
@@ -20,9 +21,8 @@ public  class Article  implements Parcelable {
     @SerializedName("TITLE")
     public String title;
 
-    public Article(){}
-
     protected Article(Parcel in) {
+        id = in.readInt();
         image = in.readString();
         status = in.readString();
         categoryId = in.readInt();
@@ -33,6 +33,7 @@ public  class Article  implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(image);
         dest.writeString(status);
         dest.writeInt(categoryId);
@@ -57,6 +58,18 @@ public  class Article  implements Parcelable {
             return new Article[size];
         }
     };
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Article(){}
+
+
 
     @Override
     public String toString() {

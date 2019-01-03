@@ -79,6 +79,11 @@ public class AmsAdapter extends RecyclerView.Adapter<AmsAdapter.ViewHolder> {
         notifyItemInserted(0);
     }
 
+    public void updateArticle(ArticleResponse.DataEntity amsArticle, int pos) {
+        this.articles.set(pos,amsArticle);
+        notifyItemChanged(pos);
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder{
 
         private ImageView thumb,btnMenu;

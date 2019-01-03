@@ -5,13 +5,12 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -21,6 +20,7 @@ import com.example.rathana.retrofit_demo.data.service.ArticleService;
 import com.example.rathana.retrofit_demo.model.form.Article;
 import com.example.rathana.retrofit_demo.model.response.ImageResponse;
 import com.example.rathana.retrofit_demo.util.RuntimePermissionHelper;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
@@ -30,9 +30,8 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.PUT;
 
-public class NewPostActivity extends AppCompatActivity {
+public class EditPostActivity extends AppCompatActivity {
 
     private static final String TAG = "NewPostActivity";
     EditText title,desc,authorId,catId;
@@ -40,10 +39,12 @@ public class NewPostActivity extends AppCompatActivity {
     ImageView img,btnPickImage;
     String articleThumb;
     ArticleService service;
+    Article article;
+    int posUpdate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_post);
+        setContentView(R.layout.activity_edit_post);
 
         title=findViewById(R.id.title);
         desc=findViewById(R.id.desc);
@@ -60,6 +61,19 @@ public class NewPostActivity extends AppCompatActivity {
 
         //check runtime permission
         RuntimePermissionHelper.checkReadExternalStorage(this);
+
+        //get ams from intent
+        if(getIntent()!=null){
+            article=getIntent().getParcelableExtra("data");
+            title.setText(article.getTitle());
+            catId.setText(article.getCategoryId()+"");
+            authorId.setText(article.getAuthor()+"");
+            posUpdate=getIntent().getIntExtra("pos",0);
+            if(article.getImage()!=null)
+                Picasso.get().load(article.getImage()).into(img);
+
+        }
+
         btnPickImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,17 +129,20 @@ public class NewPostActivity extends AppCompatActivity {
         
     }
 
-    public void onPost(View view) {
+    public void onSaveChange(View view) {
         Article article=new Article();
         article.setTitle(title.getText().toString());
         article.setDescription(desc.getText().toString());
         article.setCategoryId(Integer.parseInt(catId.getText().toString()));
         article.setAuthor(Integer.parseInt(authorId.getText().toString()));
-        article.setImage(articleThumb==null ?null:articleThumb);
+        article.setId(this.article.getId());
+        article.setImage(articleThumb==null ? this.article.getImage() : articleThumb);
+        Log.e("edit",article.toString());
         Intent intent=new Intent();
         Bundle bundle=new Bundle();
         bundle.putParcelable("data",article);
         intent.putExtras(bundle);
+        intent.putExtra("pos",posUpdate);
         setResult(RESULT_OK,intent);
         finish();
     }
