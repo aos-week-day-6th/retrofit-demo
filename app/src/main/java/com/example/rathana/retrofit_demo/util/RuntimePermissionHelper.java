@@ -21,6 +21,5 @@ public class RuntimePermissionHelper {
                     77
             );
         }
-
     }
 }

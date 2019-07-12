@@ -71,12 +71,11 @@ public class NewPostActivity extends AppCompatActivity {
 
     public static  final  int PICK_IMAGE_CODE=100;
     private void pickImage(){
-        Intent intent=new Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/*");
+        Intent intent=new Intent(Intent.ACTION_PICK);
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
+        //intent.setType("image/*");
         startActivityForResult(intent,PICK_IMAGE_CODE);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -98,6 +97,7 @@ public class NewPostActivity extends AppCompatActivity {
                 cursor.moveToFirst();
                 int columnIndex=cursor.getColumnIndex(columnInfo[0]);
                 String filePath= cursor.getString(columnIndex);
+                cursor.close();
                 Log.e(TAG, "onActivityResult: "+filePath );
                 //covert image path to bitmap
                 Bitmap bitmap=BitmapFactory.decodeFile(filePath);

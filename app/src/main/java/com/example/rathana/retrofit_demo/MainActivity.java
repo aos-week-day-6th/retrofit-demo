@@ -71,6 +71,8 @@ implements AmsAdapter.OnItemClickedCallback {
                         return 1;
                     }
                 }).build();
+
+        callback.onLoadMore();
     }
 
     Paginate.Callbacks callback=new Paginate.Callbacks() {
